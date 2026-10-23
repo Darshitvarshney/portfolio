@@ -1,51 +1,103 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { ExternalLink, Github, Sparkles, Smartphone, Globe, Layers, Download } from "lucide-react";
 
-const projects = [
+interface ProjectItem {
+  title: string;
+  type: string;
+  featured?: boolean;
+  icon?: "ai" | "globe" | "mobile" | "default";
+  description: string;
+  bullets?: string[];
+  tech: string[];
+  github?: string;
+  githubBackend?: string;
+  live?: string;
+  apk?: string;
+}
+
+const projects: ProjectItem[] = [
   {
-    title: "NLP Search",
-    type: "Freelance",
+    title: "ANTARIX – SatQuery AI",
+    type: "Agentic AI / Multimodal",
+    featured: true,
+    icon: "ai",
     description:
-      "NLP-based semantic search system using TF-IDF vectorization and preprocessing for efficient query matching with custom ranking mechanisms.",
+      "A multimodal satellite-imagery analysis platform powered by Qwen2-VL-2B-Instruct fine-tuned with LoRA/QLoRA for visual question answering.",
+    bullets: [
+      "Fine-tuned Qwen2-VL with LoRA/QLoRA for satellite visual question answering.",
+      "Developed agentic AI workflows with LangGraph for image captioning, natural-language querying, and change detection.",
+    ],
+    tech: ["Python", "Qwen2-VL", "LoRA/QLoRA", "LangGraph", "Multimodal AI", "Computer Vision"],
+    github: "https://github.com/Manny2706/ANTARIX2.O",
+  },
+  {
+    title: "ChallanSave",
+    type: "Live Production Platform",
+    featured: true,
+    icon: "globe",
+    description:
+      "Full-stack traffic legal-assistance platform with complete Admin Portal, automated WhatsApp workflows, and AI customer support.",
+    bullets: [
+      "Built complete Admin website frontend and backend for case tracking, challan resolution, and operational metrics.",
+      "Engineered end-to-end WhatsApp bot automation for instant challan inquiries, updates, and customer support.",
+      "Integrated AI-powered workflows to automate client assistance and streamline resolution processing.",
+    ],
+    tech: ["Next.js", "FastAPI", "PostgreSQL", "WhatsApp API", "AI Automation", "REST APIs"],
+    live: "https://www.challansave.in",
+  },
+  {
+    title: "Music Streaming App",
+    type: "Flutter Mobile & Backend",
+    featured: true,
+    icon: "mobile",
+    description:
+      "Modern cross-platform mobile music player and streaming application built with Flutter accompanied by a dedicated backend service.",
+    bullets: [
+      "Engineered sleek audio player controls, playlist management, and responsive UI in Flutter.",
+      "Built dedicated backend API services for audio streaming, media cataloging, and playlist sync.",
+    ],
+    tech: ["Flutter", "Dart", "REST API", "Audio Streaming", "Mobile Architecture"],
+    github: "https://github.com/Darshitvarshney/music_app_",
+    githubBackend: "https://github.com/Darshitvarshney/music_app_backend",
+    apk: "https://drive.google.com/file/d/14PVmM_b2DHtECphe0M0p7HBtEqiRevvX/view?usp=sharing",
+  },
+  {
+    title: "NLP Semantic Search",
+    type: "Freelance / ML",
+    description:
+      "NLP-based semantic search engine leveraging TF-IDF vectorization and custom query matching algorithms for rapid text document retrieval.",
     tech: ["Python", "Scikit-Learn", "NLP", "TF-IDF"],
     github: "https://github.com/Darshitvarshney/nlp_search_2",
   },
   {
     title: "Business Data Scraper",
-    type: "Freelance",
+    type: "Automation Pipeline",
     description:
-      "Web scraping system to collect structured business data from Google Maps — names, addresses, phones, emails, coordinates. Deep-extraction and high-speed modes with automated Excel outputs.",
+      "Automated scraping pipeline extracting structured business intelligence from Google Maps with dual speed/depth modes and automated Excel export.",
     tech: ["Python", "Web Scraping", "Automation", "Excel"],
     github: "https://github.com/Darshitvarshney",
   },
   {
     title: "Travefy",
-    type: "Hackathon",
+    type: "Hackathon Project",
     description:
-      "Travel-planning web app for trip creation and itinerary management. Clean UI, structured backend with auth and real-time features planned.",
+      "Collaborative travel-planning web application for trip creation, itinerary scheduling, route coordination, and structured user management.",
     tech: ["Python", "Flask", "MongoDB", "REST API"],
     github: "https://github.com/Darshitvarshney/Travefy",
   },
   {
-    title: "Credit Card Fraud Detection",
-    type: "ML Project",
-    description:
-      "Machine learning model for detecting fraudulent credit card transactions using classification algorithms and data analysis techniques.",
-    tech: ["Python", "Scikit-Learn", "ML", "Data Analysis"],
-    github: "https://github.com/Darshitvarshney/Credit-Card-Fraud-Detection",
-  },
-  {
     title: "Vaultify",
-    type: "Personal Project",
+    type: "Security / Python",
     description:
-      "Secure password management tool in Python that encrypts and stores passwords using a master key. Supports OTP-based recovery and strong password generation.",
+      "Secure password management tool in Python that encrypts and stores credentials using a master key, OTP verification, and strong key generation.",
     tech: ["Python", "Cryptography", "CLI"],
     github: "https://github.com/Darshitvarshney/Vaultify",
   },
   {
     title: "Notes App Backend",
-    type: "Backend Project",
+    type: "Backend Service",
     description:
-      "Backend API for a notes application with CRUD operations, user management, and structured data handling.",
+      "Scalable backend API service with token authentication, structured data models, and CRUD operations for personal note taking.",
     tech: ["Python", "FastAPI", "MongoDB"],
     github: "https://github.com/Darshitvarshney/Notes-App-Backend",
   },
@@ -57,45 +109,126 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="py-24 px-6 bg-surface">
       <div ref={ref} className="max-w-6xl mx-auto opacity-0">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
-          My <span className="text-primary">Projects</span>
-        </h2>
-        <div className="w-16 h-1 bg-teal rounded-full mb-12" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4">
+          <div>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
+              Featured <span className="text-primary">Projects</span>
+            </h2>
+            <div className="w-16 h-1 bg-teal rounded-full" />
+          </div>
+          <p className="text-sm text-muted-foreground mt-2 md:mt-0">
+            A selection of AI platforms, full-stack systems, and mobile applications
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {projects.map((project) => (
-            <a
+            <div
               key={project.title}
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group block rounded-xl border border-border bg-card p-6 hover:border-primary/50 hover:-translate-y-1 transition-all duration-300"
+              className={`group flex flex-col justify-between rounded-xl border bg-card p-6 transition-all duration-300 hover:-translate-y-1 ${
+                project.featured
+                  ? "border-primary/40 shadow-lg shadow-primary/5 hover:border-primary"
+                  : "border-border hover:border-primary/50"
+              }`}
             >
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-primary/10 text-primary">
-                  {project.type}
-                </span>
-                <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
+              <div>
+                {/* Header row */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    {project.icon === "ai" && <Sparkles className="w-4 h-4 text-teal" />}
+                    {project.icon === "globe" && <Globe className="w-4 h-4 text-teal" />}
+                    {project.icon === "mobile" && <Smartphone className="w-4 h-4 text-teal" />}
+                    {!project.icon && <Layers className="w-4 h-4 text-teal" />}
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                      {project.type}
+                    </span>
+                  </div>
+                </div>
+
+                <h3 className="font-heading text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+
+                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                  {project.description}
+                </p>
+
+                {project.bullets && project.bullets.length > 0 && (
+                  <ul className="mb-4 space-y-1.5 text-xs text-foreground/80 list-disc list-inside">
+                    {project.bullets.map((b, i) => (
+                      <li key={i} className="leading-relaxed">
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <h3 className="font-heading text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
-                {project.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-3">
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs px-2 py-0.5 rounded-md bg-secondary text-teal font-medium"
-                  >
-                    {t}
-                  </span>
-                ))}
+
+              <div>
+                {/* Tech tags */}
+                <div className="flex flex-wrap gap-1.5 mb-5 pt-3 border-t border-border/50">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="text-[11px] px-2 py-0.5 rounded-md bg-secondary text-teal font-medium"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action Links */}
+                <div className="flex flex-wrap items-center gap-2.5 pt-2">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-secondary"
+                    >
+                      <Github className="w-4 h-4" />
+                      <span>{project.githubBackend ? "App Repo" : "GitHub"}</span>
+                    </a>
+                  )}
+
+                  {project.githubBackend && (
+                    <a
+                      href={project.githubBackend}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-secondary"
+                    >
+                      <Github className="w-4 h-4" />
+                      <span>Backend Repo</span>
+                    </a>
+                  )}
+
+                  {project.apk && (
+                    <a
+                      href={project.apk}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal hover:text-teal/80 transition-colors py-1 px-2.5 rounded-md bg-teal/10 hover:bg-teal/20"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download APK</span>
+                    </a>
+                  )}
+
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal hover:text-teal/80 transition-colors py-1 px-2.5 rounded-md bg-teal/10 hover:bg-teal/20"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Live Site</span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>

@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-const roles = ["Backend Developer", "Python Engineer", "ML Enthusiast", "Problem Solver"];
+const roles = [
+  "Backend Developer",
+  "AI & ML Engineer",
+  "Full-Stack Developer",
+  "Automation Specialist",
+];
 
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -46,22 +51,22 @@ export function HeroSection() {
             </span>
           </span>
         </div>
-        <p className="mt-6 text-muted-foreground max-w-lg mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: "0.3s" }}>
-          Engineering student with a passion for building efficient backend systems
-          and exploring the frontier of AI & Machine Learning.
+        <p className="mt-6 text-muted-foreground max-w-xl mx-auto leading-relaxed animate-fade-up" style={{ animationDelay: "0.3s" }}>
+          Backend Developer and AI Engineer passionate about building scalable backends with FastAPI & PostgreSQL, 
+          agentic multimodal AI workflows, and end-to-end intelligent automations.
         </p>
         <div className="mt-8 flex gap-4 justify-center animate-fade-up" style={{ animationDelay: "0.4s" }}>
           <a
-            href="#projects"
+            href="#experience"
             className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
           >
-            View Projects
+            Experience
           </a>
           <a
-            href="#contact"
+            href="#projects"
             className="px-6 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-secondary transition-colors"
           >
-            Get in Touch
+            View Projects
           </a>
         </div>
       </div>
