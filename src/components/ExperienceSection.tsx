@@ -25,73 +25,84 @@ export function ExperienceSection() {
   const ref = useScrollReveal();
 
   return (
-    <section id="experience" className="py-24 px-6 bg-surface/50">
-      <div ref={ref} className="max-w-5xl mx-auto opacity-0">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
-          Work <span className="text-primary">Experience</span>
-        </h2>
-        <div className="w-16 h-1 bg-teal rounded-full mb-12" />
+    <section id="experience" className="py-24 px-6 sm:px-10 bg-[#14151b] relative border-t border-white/[0.06]">
+      <div ref={ref} className="max-w-6xl mx-auto transition-all duration-700">
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-start mb-14">
+          <span className="font-['Plus_Jakarta_Sans'] text-xs font-bold tracking-widest text-slate-400 uppercase mb-2">
+            // Career Track
+          </span>
+          <h2 className="font-['Anton'] text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white uppercase">
+            Work <span className="text-slate-400">Experience</span>
+          </h2>
+          <div className="w-16 h-1 bg-white mt-4" />
+        </div>
 
         <div className="space-y-8">
           {experiences.map((exp) => (
             <div
               key={exp.company + exp.role}
-              className="relative rounded-2xl border border-border bg-card p-6 md:p-8 transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5"
+              className="relative rounded-3xl bg-[#181920] border border-white/[0.08] p-6 sm:p-10 transition-all duration-300 hover:border-white/20 shadow-2xl group"
             >
-              {/* Header */}
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-4">
+              {/* Header Row */}
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 pb-6 border-b border-white/[0.08]">
                 <div>
-                  <div className="flex flex-wrap items-center gap-3 mb-1">
-                    <h3 className="font-heading text-xl md:text-2xl font-bold text-foreground">
+                  <div className="flex flex-wrap items-center gap-3 mb-2">
+                    <h3 className="font-['Syne'] text-xl sm:text-2xl font-bold text-white group-hover:text-slate-200 transition-colors">
                       {exp.role}
                     </h3>
-                    <span className="text-xs font-semibold px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                    <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white/10 text-white border border-white/20">
                       {exp.badge}
                     </span>
                   </div>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mt-1">
+
+                  <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400 mt-3">
                     <a
                       href={exp.companyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-medium text-teal hover:underline inline-flex items-center gap-1 group"
+                      className="text-white hover:underline inline-flex items-center gap-1.5 transition-colors font-bold"
                     >
-                      <Briefcase className="w-4 h-4 text-teal" />
+                      <Briefcase className="w-4 h-4 text-slate-300" />
                       <span>{exp.company}</span>
-                      <ExternalLink className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" />
+                      <ExternalLink className="w-3.5 h-3.5 opacity-70" />
                     </a>
-                    <span className="inline-flex items-center gap-1">
-                      <Calendar className="w-4 h-4 text-muted-foreground" />
+                    <span className="inline-flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4 text-slate-500" />
                       {exp.period}
                     </span>
-                    <span className="inline-flex items-center gap-1">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
+                    <span className="inline-flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 text-slate-500" />
                       {exp.location}
                     </span>
                   </div>
                 </div>
               </div>
 
-              <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed">
+              {/* Description */}
+              <p className="text-sm sm:text-base text-slate-300 mb-6 leading-relaxed">
                 {exp.description}
               </p>
 
-              {/* Achievements list */}
-              <div className="space-y-2.5 mb-6">
+              {/* Achievements */}
+              <div className="space-y-3 mb-8">
                 {exp.achievements.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5 text-sm text-foreground/90">
-                    <CheckCircle2 className="w-4 h-4 text-teal shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{item}</span>
+                  <div key={idx} className="flex items-start gap-3 text-sm text-slate-300 leading-relaxed">
+                    <div className="p-1 rounded bg-white/10 text-white shrink-0 mt-0.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                    </div>
+                    <span>{item}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Tech Tags */}
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-border/60">
+              {/* Tech Chips */}
+              <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.08]">
                 {exp.tech.map((t) => (
                   <span
                     key={t}
-                    className="text-xs px-2.5 py-1 rounded-md bg-secondary text-teal font-medium"
+                    className="text-xs font-semibold px-3 py-1 rounded-lg bg-white/[0.04] border border-white/[0.08] text-slate-300 hover:text-white hover:border-white/20 transition-colors"
                   >
                     {t}
                   </span>
@@ -100,6 +111,7 @@ export function ExperienceSection() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

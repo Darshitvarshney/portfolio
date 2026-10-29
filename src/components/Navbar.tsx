@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Sun, Moon, Menu, X, ArrowUpRight } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -15,7 +16,7 @@ export function Navbar() {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -26,71 +27,90 @@ export function Navbar() {
     document.documentElement.classList.toggle("light", next === "light");
   };
 
+  if (!scrolled && !mobileOpen) {
+    return null; // Keep hero screen 100% clean with its own viewfinder header!
+  }
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="font-heading text-xl font-bold text-primary">
-          DV<span className="text-teal">.</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 py-3 bg-[#111216]/90 backdrop-blur-2xl border-b border-white/[0.08] shadow-2xl transition-all duration-300">
+      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+        <a href="#home" className="flex items-center gap-2 group">
+          <span className="font-['Anton'] text-2xl tracking-wide text-white group-hover:text-slate-300 transition-colors">
+            DARSHIT<span className="text-white/60">.</span>
+          </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors"
             >
               {link.label}
             </a>
           ))}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-accent transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? "☀️" : "🌙"}
-          </button>
         </div>
 
-        <button
-          className="md:hidden p-2 text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {mobileOpen ? (
-              <path d="M18 6L6 18M6 6l12 12" />
-            ) : (
-              <path d="M3 12h18M3 6h18M3 18h18" />
-            )}
-          </svg>
-        </button>
+        {/* Right Actions */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-white/[0.05] border border-white/[0.1] text-slate-300 hover:text-white transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-700" />}
+          </button>
+
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black hover:bg-slate-200 transition-all shadow-md"
+          >
+            <span>Connect</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        {/* Mobile Toggle */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-white/[0.05] text-slate-300"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4" />}
+          </button>
+          <button
+            className="p-2 text-white"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
+      {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-6 pb-4">
+        <div className="md:hidden mt-3 mx-4 p-5 rounded-2xl bg-[#181920]/95 backdrop-blur-2xl border border-white/[0.1] flex flex-col gap-2">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="px-4 py-2 text-sm font-semibold uppercase tracking-wider text-slate-300 hover:text-white"
             >
               {link.label}
             </a>
           ))}
-          <button
-            onClick={toggleTheme}
-            className="mt-2 p-2 rounded-lg bg-secondary text-secondary-foreground text-sm"
+          <a
+            href="#contact"
+            onClick={() => setMobileOpen(false)}
+            className="mt-2 text-center py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black"
           >
-            {theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </button>
+            Connect
+          </a>
         </div>
       )}
     </nav>

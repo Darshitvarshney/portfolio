@@ -1,8 +1,10 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { ArrowUpRight } from "lucide-react";
 
 const socials = [
   {
     label: "GitHub",
+    value: "@Darshitvarshney",
     href: "https://github.com/Darshitvarshney",
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -12,6 +14,7 @@ const socials = [
   },
   {
     label: "LinkedIn",
+    value: "in/darshit-varshney",
     href: "https://www.linkedin.com/in/darshit-varshney-422002390",
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
@@ -21,6 +24,7 @@ const socials = [
   },
   {
     label: "Email",
+    value: "darshitvarshney1928@gmail.com",
     href: "mailto:darshitvarshney1928@gmail.com",
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -31,6 +35,7 @@ const socials = [
   },
   {
     label: "Phone",
+    value: "+91 9927231085",
     href: "tel:+919927231085",
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -44,33 +49,50 @@ export function ContactSection() {
   const ref = useScrollReveal();
 
   return (
-    <section id="contact" className="py-24 px-6">
-      <div ref={ref} className="max-w-4xl mx-auto opacity-0">
-        <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2 text-center">
-          Get in <span className="text-primary">Touch</span>
-        </h2>
-        <div className="w-16 h-1 bg-teal rounded-full mb-8 mx-auto" />
-        <p className="text-center text-muted-foreground mb-12 max-w-md mx-auto">
-          I'm open to freelance work, collaborations, and interesting opportunities.
-          Feel free to reach out!
-        </p>
+    <section id="contact" className="py-24 px-6 sm:px-10 bg-[#14151b] relative border-t border-white/[0.06]">
+      <div ref={ref} className="max-w-5xl mx-auto transition-all duration-700">
+        
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center mb-14">
+          <span className="font-['Plus_Jakarta_Sans'] text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 block">
+            // Direct Inquiries
+          </span>
+          <h2 className="font-['Anton'] text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white uppercase mb-3">
+            Get in <span className="text-slate-400">Touch</span>
+          </h2>
+          <div className="w-16 h-1 bg-white mb-6 mx-auto" />
+          <p className="text-base text-slate-300 max-w-lg mx-auto font-normal">
+            I'm open to freelance work, collaborations, and interesting opportunities.
+            Feel free to reach out!
+          </p>
+        </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Contact Links Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {socials.map((s) => (
             <a
               key={s.label}
               href={s.href}
               target={s.href.startsWith("http") ? "_blank" : undefined}
               rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="flex flex-col items-center gap-3 p-6 rounded-xl border border-border bg-card hover:border-primary/50 hover:-translate-y-1 transition-all duration-300 group"
+              className="flex flex-col items-center text-center p-6 rounded-3xl bg-[#181920] border border-white/[0.08] hover:border-white/30 hover:-translate-y-1.5 transition-all duration-300 group shadow-2xl"
             >
-              <span className="text-muted-foreground group-hover:text-primary transition-colors">
+              <div className="p-3.5 rounded-2xl bg-white/10 border border-white/20 text-white mb-4 group-hover:scale-110 group-hover:bg-white group-hover:text-black transition-all duration-300 shadow-md">
                 {s.icon}
+              </div>
+
+              <div className="flex items-center gap-1 text-white font-['Syne'] font-bold text-base group-hover:text-slate-200 transition-colors">
+                <span>{s.label}</span>
+                <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              </div>
+
+              <span className="text-xs text-slate-400 font-medium mt-1 truncate max-w-full">
+                {s.value}
               </span>
-              <span className="text-sm font-medium">{s.label}</span>
             </a>
           ))}
         </div>
+
       </div>
     </section>
   );

@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { ExternalLink, Github, Sparkles, Smartphone, Globe, Layers, Download } from "lucide-react";
+import { ExternalLink, Github, Sparkles, Smartphone, Globe, Layers, Download, ArrowUpRight } from "lucide-react";
 
 interface ProjectItem {
   title: string;
   type: string;
+  category: "all" | "ai" | "fullstack" | "mobile";
   featured?: boolean;
   icon?: "ai" | "globe" | "mobile" | "default";
   description: string;
@@ -19,6 +21,7 @@ const projects: ProjectItem[] = [
   {
     title: "ANTARIX – SatQuery AI",
     type: "Agentic AI / Multimodal",
+    category: "ai",
     featured: true,
     icon: "ai",
     description:
@@ -33,6 +36,7 @@ const projects: ProjectItem[] = [
   {
     title: "ChallanSave",
     type: "Live Production Platform",
+    category: "fullstack",
     featured: true,
     icon: "globe",
     description:
@@ -48,6 +52,7 @@ const projects: ProjectItem[] = [
   {
     title: "Music Streaming App",
     type: "Flutter Mobile & Backend",
+    category: "mobile",
     featured: true,
     icon: "mobile",
     description:
@@ -64,6 +69,7 @@ const projects: ProjectItem[] = [
   {
     title: "NLP Semantic Search",
     type: "Freelance / ML",
+    category: "ai",
     description:
       "NLP-based semantic search engine leveraging TF-IDF vectorization and custom query matching algorithms for rapid text document retrieval.",
     tech: ["Python", "Scikit-Learn", "NLP", "TF-IDF"],
@@ -72,6 +78,7 @@ const projects: ProjectItem[] = [
   {
     title: "Business Data Scraper",
     type: "Automation Pipeline",
+    category: "fullstack",
     description:
       "Automated scraping pipeline extracting structured business intelligence from Google Maps with dual speed/depth modes and automated Excel export.",
     tech: ["Python", "Web Scraping", "Automation", "Excel"],
@@ -80,6 +87,7 @@ const projects: ProjectItem[] = [
   {
     title: "Travefy",
     type: "Hackathon Project",
+    category: "fullstack",
     description:
       "Collaborative travel-planning web application for trip creation, itinerary scheduling, route coordination, and structured user management.",
     tech: ["Python", "Flask", "MongoDB", "REST API"],
@@ -88,6 +96,7 @@ const projects: ProjectItem[] = [
   {
     title: "Vaultify",
     type: "Security / Python",
+    category: "fullstack",
     description:
       "Secure password management tool in Python that encrypts and stores credentials using a master key, OTP verification, and strong key generation.",
     tech: ["Python", "Cryptography", "CLI"],
@@ -96,6 +105,7 @@ const projects: ProjectItem[] = [
   {
     title: "Notes App Backend",
     type: "Backend Service",
+    category: "fullstack",
     description:
       "Scalable backend API service with token authentication, structured data models, and CRUD operations for personal note taking.",
     tech: ["Python", "FastAPI", "MongoDB"],
@@ -105,59 +115,103 @@ const projects: ProjectItem[] = [
 
 export function ProjectsSection() {
   const ref = useScrollReveal();
+  const [filter, setFilter] = useState<"all" | "ai" | "fullstack" | "mobile">("all");
+
+  const filteredProjects =
+    filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="projects" className="py-24 px-6 bg-surface">
-      <div ref={ref} className="max-w-6xl mx-auto opacity-0">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-4">
+    <section id="projects" className="py-24 px-6 sm:px-10 bg-[#111216] relative border-t border-white/[0.06]">
+      <div ref={ref} className="max-w-6xl mx-auto transition-all duration-700">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h2 className="font-heading text-3xl md:text-4xl font-bold mb-2">
-              Featured <span className="text-primary">Projects</span>
+            <span className="font-['Plus_Jakarta_Sans'] text-xs font-bold tracking-widest text-slate-400 uppercase mb-2 block">
+              // Selected Artifacts
+            </span>
+            <h2 className="font-['Anton'] text-5xl sm:text-6xl md:text-7xl font-normal tracking-tight text-white uppercase">
+              Featured <span className="text-slate-400">Projects</span>
             </h2>
-            <div className="w-16 h-1 bg-teal rounded-full" />
+            <div className="w-16 h-1 bg-white mt-4" />
           </div>
-          <p className="text-sm text-muted-foreground mt-2 md:mt-0">
-            A selection of AI platforms, full-stack systems, and mobile applications
+          <p className="text-sm font-medium text-slate-400 max-w-md">
+            A curated portfolio of AI systems, scalable backend architectures, and mobile applications
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {projects.map((project) => (
+        {/* Filter Pills */}
+        <div className="flex flex-wrap items-center gap-2.5 mb-10">
+          {[
+            { id: "all", label: "All Works" },
+            { id: "ai", label: "AI & Multimodal" },
+            { id: "fullstack", label: "Full-Stack" },
+            { id: "mobile", label: "Mobile" },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setFilter(tab.id as any)}
+              className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                filter === tab.id
+                  ? "bg-white text-black shadow-lg"
+                  : "bg-white/[0.04] text-slate-300 border border-white/[0.08] hover:border-white/30 hover:text-white"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Project Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
             <div
               key={project.title}
-              className={`group flex flex-col justify-between rounded-xl border bg-card p-6 transition-all duration-300 hover:-translate-y-1 ${
+              className={`group relative flex flex-col justify-between rounded-3xl bg-[#181920] border backdrop-blur-xl p-7 transition-all duration-300 hover:-translate-y-1.5 shadow-2xl ${
                 project.featured
-                  ? "border-primary/40 shadow-lg shadow-primary/5 hover:border-primary"
-                  : "border-border hover:border-primary/50"
+                  ? "border-white/20 hover:border-white/50"
+                  : "border-white/[0.08] hover:border-white/25"
               }`}
             >
               <div>
                 {/* Header row */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    {project.icon === "ai" && <Sparkles className="w-4 h-4 text-teal" />}
-                    {project.icon === "globe" && <Globe className="w-4 h-4 text-teal" />}
-                    {project.icon === "mobile" && <Smartphone className="w-4 h-4 text-teal" />}
-                    {!project.icon && <Layers className="w-4 h-4 text-teal" />}
-                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary">
+                    <div className="p-2 rounded-xl bg-white/[0.06] border border-white/10 text-white">
+                      {project.icon === "ai" && <Sparkles className="w-4 h-4" />}
+                      {project.icon === "globe" && <Globe className="w-4 h-4" />}
+                      {project.icon === "mobile" && <Smartphone className="w-4 h-4" />}
+                      {!project.icon && <Layers className="w-4 h-4" />}
+                    </div>
+                    <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/[0.04] text-slate-300 border border-white/[0.08]">
                       {project.type}
                     </span>
                   </div>
+
+                  {project.featured && (
+                    <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-white/10 text-white border border-white/20">
+                      Featured
+                    </span>
+                  )}
                 </div>
 
-                <h3 className="font-heading text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                {/* Title */}
+                <h3 className="font-['Syne'] text-xl font-bold mb-3 text-white group-hover:text-slate-200 transition-colors">
                   {project.title}
                 </h3>
 
-                <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
+                {/* Description */}
+                <p className="text-sm text-slate-300 mb-4 leading-relaxed font-normal">
                   {project.description}
                 </p>
 
+                {/* Bullets */}
                 {project.bullets && project.bullets.length > 0 && (
-                  <ul className="mb-4 space-y-1.5 text-xs text-foreground/80 list-disc list-inside">
+                  <ul className="mb-4 space-y-2 text-xs text-slate-400">
                     {project.bullets.map((b, i) => (
-                      <li key={i} className="leading-relaxed">
-                        {b}
+                      <li key={i} className="flex items-start gap-2 leading-relaxed">
+                        <span className="text-white font-bold mt-0.5">•</span>
+                        <span>{b}</span>
                       </li>
                     ))}
                   </ul>
@@ -165,12 +219,12 @@ export function ProjectsSection() {
               </div>
 
               <div>
-                {/* Tech tags */}
-                <div className="flex flex-wrap gap-1.5 mb-5 pt-3 border-t border-border/50">
+                {/* Tech chips */}
+                <div className="flex flex-wrap gap-1.5 mb-5 pt-4 border-t border-white/[0.08]">
                   {project.tech.map((t) => (
                     <span
                       key={t}
-                      className="text-[11px] px-2 py-0.5 rounded-md bg-secondary text-teal font-medium"
+                      className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-slate-300"
                     >
                       {t}
                     </span>
@@ -178,15 +232,15 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Action Links */}
-                <div className="flex flex-wrap items-center gap-2.5 pt-2">
+                <div className="flex flex-wrap items-center gap-2 pt-1">
                   {project.github && (
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-secondary"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors py-1.5 px-3 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-white/30"
                     >
-                      <Github className="w-4 h-4" />
+                      <Github className="w-3.5 h-3.5" />
                       <span>{project.githubBackend ? "App Repo" : "GitHub"}</span>
                     </a>
                   )}
@@ -196,9 +250,9 @@ export function ProjectsSection() {
                       href={project.githubBackend}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-secondary"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors py-1.5 px-3 rounded-lg bg-white/[0.04] border border-white/[0.08] hover:border-white/30"
                     >
-                      <Github className="w-4 h-4" />
+                      <Github className="w-3.5 h-3.5" />
                       <span>Backend Repo</span>
                     </a>
                   )}
@@ -208,7 +262,7 @@ export function ProjectsSection() {
                       href={project.apk}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal hover:text-teal/80 transition-colors py-1 px-2.5 rounded-md bg-teal/10 hover:bg-teal/20"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-white transition-colors py-1.5 px-3.5 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20"
                     >
                       <Download className="w-3.5 h-3.5" />
                       <span>Download APK</span>
@@ -220,10 +274,10 @@ export function ProjectsSection() {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal hover:text-teal/80 transition-colors py-1 px-2.5 rounded-md bg-teal/10 hover:bg-teal/20"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-black transition-colors py-1.5 px-3.5 rounded-lg bg-white hover:bg-slate-200 shadow-md"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
                       <span>Live Site</span>
+                      <ArrowUpRight className="w-3 h-3" />
                     </a>
                   )}
                 </div>
@@ -231,6 +285,7 @@ export function ProjectsSection() {
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );
