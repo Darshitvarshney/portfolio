@@ -118,7 +118,7 @@ export function HeroSection() {
         
         {/* Left Side: Solid Pure White Name (DARSHIT VARSHNEY) moving in sync with cursor & scroll */}
         <div
-          className="absolute inset-y-0 left-0 flex flex-col justify-center items-start pl-4 sm:pl-10 lg:pl-16 pointer-events-none z-0 gap-3 sm:gap-5"
+          className="absolute inset-y-0 left-0 flex flex-col justify-center items-start pl-4 sm:pl-10 lg:pl-16 pointer-events-none z-20 gap-3 sm:gap-5"
           style={{
             transform: `perspective(1000px) translate3d(${mouseOffset.x * 18 - scrollShiftX * 0.5}px, ${mouseOffset.y * 14 - scrollShiftY * 0.4}px, 0) rotateY(${mouseOffset.x * 8 - scrollRotY * 0.5}deg) rotateX(${-mouseOffset.y * 6}deg)`,
             transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
