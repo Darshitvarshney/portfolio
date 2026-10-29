@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Download } from "lucide-react";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -49,6 +49,16 @@ export function Navbar() {
         {/* Right Actions */}
         <div className="hidden md:flex items-center gap-3">
           <a
+            href="/Darshit_Varshney_Resume.pdf"
+            download="Darshit_Varshney_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all shadow-md"
+          >
+            <span>Resume</span>
+            <Download className="w-3.5 h-3.5" />
+          </a>
+          <a
             href="#contact"
             className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black hover:bg-slate-200 transition-all shadow-md"
           >
@@ -83,9 +93,20 @@ export function Navbar() {
             </a>
           ))}
           <a
+            href="/Darshit_Varshney_Resume.pdf"
+            download="Darshit_Varshney_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileOpen(false)}
+            className="mt-2 text-center py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white/10 text-white border border-white/20 flex items-center justify-center gap-2"
+          >
+            <span>Download Resume</span>
+            <Download className="w-3.5 h-3.5" />
+          </a>
+          <a
             href="#contact"
             onClick={() => setMobileOpen(false)}
-            className="mt-2 text-center py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black"
+            className="mt-1 text-center py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-white text-black"
           >
             Connect
           </a>

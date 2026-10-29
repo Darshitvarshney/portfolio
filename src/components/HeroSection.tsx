@@ -105,7 +105,10 @@ export function HeroSection() {
             Experience
           </a>
           <a
-            href="#about"
+            href="/Darshit_Varshney_Resume.pdf"
+            download="Darshit_Varshney_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-['Plus_Jakarta_Sans'] text-xs sm:text-sm font-bold tracking-widest text-slate-200 hover:text-white uppercase transition-colors"
           >
             Resume
