@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Github, Linkedin, Mail, Phone, ArrowRight } from "lucide-react";
 
 const roles = [
@@ -13,6 +13,11 @@ export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
+
+  // 3D Cursor Tracking State
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const current = roles[roleIndex];
@@ -32,9 +37,31 @@ export function HeroSection() {
     return () => clearTimeout(timeout);
   }, [text, deleting, roleIndex]);
 
+  // Handle smooth mouse tracking over the hero viewport
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+    const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    setMouseOffset({
+      x: Math.max(-1, Math.min(1, x)),
+      y: Math.max(-1, Math.min(1, y)),
+    });
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setMouseOffset({ x: 0, y: 0 });
+    setIsHovered(false);
+  };
+
   return (
-    <section id="home" className="relative min-h-screen w-full studio-backdrop flex flex-col justify-between p-6 sm:p-10 md:p-14 overflow-hidden select-none">
-      
+    <section
+      id="home"
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative min-h-screen w-full studio-backdrop flex flex-col justify-between p-6 sm:p-10 md:p-14 overflow-hidden select-none"
+    >
       {/* 4 Viewfinder Framing Corner Brackets */}
       <div className="absolute top-6 left-6 sm:top-10 sm:left-10 w-8 h-8 sm:w-14 sm:h-14 border-t-2 border-l-2 border-white/70 pointer-events-none z-30" />
       <div className="absolute top-6 right-6 sm:top-10 sm:right-10 w-8 h-8 sm:w-14 sm:h-14 border-t-2 border-r-2 border-white/70 pointer-events-none z-30" />
@@ -77,44 +104,69 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Main Center Stage: Giant Typography & Centered Standing 3D Avatar */}
-      <div className="relative z-10 flex-1 flex items-center justify-center my-auto py-8">
+      {/* Main Center Stage: Solid White Name on Left, Avatar & Arrows Shifted Slightly Right */}
+      <div className="relative z-10 flex-1 flex items-center justify-between my-auto py-8">
         
-        {/* Giant Background Typography: DARSHIT VARSHNEY */}
-        <div className="absolute inset-0 flex flex-col justify-center items-start pl-2 sm:pl-6 pointer-events-none z-0 gap-3 sm:gap-5 md:gap-7">
-          <div className="flex items-center gap-4 sm:gap-8">
-            <h1 className="font-['Anton'] text-6xl sm:text-7xl md:text-8xl lg:text-[9.5rem] xl:text-[10.5rem] tracking-tight leading-none text-white/95 uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+        {/* Left Side: Solid Pure White Name (DARSHIT VARSHNEY) moving in sync with cursor */}
+        <div
+          className="absolute inset-y-0 left-0 flex flex-col justify-center items-start pl-4 sm:pl-10 lg:pl-16 pointer-events-none z-0 gap-3 sm:gap-5"
+          style={{
+            transform: `perspective(1000px) translate3d(${mouseOffset.x * 18}px, ${mouseOffset.y * 14}px, 0) rotateY(${mouseOffset.x * 8}deg) rotateX(${-mouseOffset.y * 6}deg)`,
+            transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
+          }}
+        >
+          <div className="flex items-center gap-3 sm:gap-6">
+            <h1 className="font-['Anton'] text-6xl sm:text-7xl md:text-8xl lg:text-[7.25rem] xl:text-[8.25rem] tracking-tight leading-none text-white uppercase drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]">
               DARSHIT
             </h1>
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-8">
+          <div className="flex items-center gap-3 sm:gap-6">
             {/* Preserved spacing where star was located */}
-            <div className="w-12 h-12 sm:w-20 sm:h-20 lg:w-24 lg:h-24 shrink-0 pointer-events-none" aria-hidden="true" />
+            <div className="w-11 h-11 sm:w-16 sm:h-16 lg:w-20 lg:h-20 shrink-0 pointer-events-none" aria-hidden="true" />
 
-            <h1 className="font-['Anton'] text-6xl sm:text-7xl md:text-8xl lg:text-[9.5rem] xl:text-[10.5rem] tracking-tight leading-none text-white/95 uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            <h1 className="font-['Anton'] text-6xl sm:text-7xl md:text-8xl lg:text-[7.25rem] xl:text-[8.25rem] tracking-tight leading-none text-white uppercase drop-shadow-[0_15px_30px_rgba(0,0,0,0.6)]">
               VARSHNEY
             </h1>
           </div>
         </div>
 
-        {/* Center: Standing 3D Avatar with floating animation */}
-        <div className="relative z-10 flex flex-col items-center justify-center">
-          <div className="relative">
-            {/* 3D Character Avatar */}
+        {/* Right-Center: 3D Avatar + Scroll Down Arrow (Shifted slightly to the right so name is clean & proper) */}
+        <div className="relative z-10 w-full flex justify-center lg:justify-end lg:pr-24 xl:pr-36">
+          <div className="relative flex flex-col items-center">
+            
+            {/* Studio Ambient Backlight behind Avatar */}
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-white/[0.08] rounded-full blur-3xl pointer-events-none"
+              style={{
+                transform: `translate3d(${mouseOffset.x * 12}px, ${mouseOffset.y * 12}px, 0)`,
+                transition: isHovered ? "transform 0.15s ease-out" : "transform 0.8s ease-out",
+              }}
+            />
+
+            {/* 3D Character Avatar with live cursor physics & rotation */}
             <img
               src="/avatar.png"
               alt="Darshit Varshney 3D Avatar"
-              className="w-[280px] sm:w-[380px] md:w-[460px] lg:w-[500px] h-auto object-contain animate-float-avatar drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]"
+              className="relative z-10 w-[270px] sm:w-[350px] md:w-[420px] lg:w-[460px] h-auto object-contain cursor-grab active:cursor-grabbing drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
+              style={{
+                transform: `perspective(1000px) translate3d(${mouseOffset.x * 26}px, ${mouseOffset.y * 18}px, 0) rotateY(${mouseOffset.x * 14}deg) rotateX(${-mouseOffset.y * 10}deg)`,
+                transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
             />
 
-            {/* Floor Ambient Shadow */}
-            <div className="w-48 sm:w-64 h-6 sm:h-8 bg-black/70 rounded-full blur-md mx-auto -mt-4 sm:-mt-6 animate-float-shadow pointer-events-none" />
+            {/* Dynamic Reacting Floor Shadow */}
+            <div
+              className="w-44 sm:w-60 h-6 bg-black/80 rounded-full blur-md mx-auto -mt-3 sm:-mt-5 pointer-events-none"
+              style={{
+                transform: `translate3d(${-mouseOffset.x * 20}px, ${-mouseOffset.y * 8}px, 0) scale(${1 - Math.abs(mouseOffset.y) * 0.15})`,
+                transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            />
 
-            {/* Doodle Annotation 1: 'Just scroll down' with curly arrow */}
-            <div className="absolute top-12 -right-16 sm:-right-24 md:-right-32 hidden sm:flex items-center gap-2 pointer-events-none">
+            {/* Doodle Annotation 1: 'Just scroll down' with curly arrow (Positioned directly to the right of avatar) */}
+            <div className="absolute top-10 -right-16 sm:-right-24 md:-right-32 hidden sm:flex items-center gap-2 pointer-events-none">
               <div className="flex flex-col items-center">
-                {/* SVG Curly Arrow pointing down */}
                 <svg
                   width="45"
                   height="65"
@@ -127,7 +179,7 @@ export function HeroSection() {
                   <path d="M 35 5 Q 10 25 30 45 Q 40 55 20 65" />
                   <polyline points="15,58 20,65 28,62" />
                 </svg>
-                <span className="font-['Caveat'] text-xl md:text-2xl text-slate-300 font-bold tracking-wide -mt-2 rotate-[-4deg]">
+                <span className="font-['Caveat'] text-xl md:text-2xl text-slate-300 font-bold tracking-wide -mt-2 rotate-[-4deg] whitespace-nowrap">
                   Just scroll down
                 </span>
               </div>
@@ -136,7 +188,6 @@ export function HeroSection() {
             {/* Doodle Annotation 2: 'Follow me' with curly arrow */}
             <div className="absolute bottom-16 -right-12 sm:-right-20 md:-right-28 hidden sm:flex items-center gap-2 pointer-events-none">
               <div className="flex flex-col items-center">
-                {/* SVG Curly Arrow pointing to socials */}
                 <svg
                   width="40"
                   height="50"
@@ -151,6 +202,7 @@ export function HeroSection() {
                 </svg>
               </div>
             </div>
+
           </div>
         </div>
 
@@ -158,7 +210,6 @@ export function HeroSection() {
 
       {/* Bottom Footer Bar inside framing */}
       <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-4 pb-2 sm:pb-4 px-2 sm:px-4">
-        
         {/* Bottom-Left: EXPLORE MORE -> */}
         <a
           href="#about"

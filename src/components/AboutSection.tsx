@@ -1,5 +1,5 @@
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { MapPin, Mail, GraduationCap, Briefcase, Sparkles } from "lucide-react";
+import { MapPin, Mail, GraduationCap, Briefcase } from "lucide-react";
 
 export function AboutSection() {
   const ref = useScrollReveal();
@@ -9,7 +9,6 @@ export function AboutSection() {
     { label: "Email", value: "darshitvarshney1928@gmail.com", icon: Mail, isEmail: true },
     { label: "Education", value: "B.Tech CS (2024 – 2028)", icon: GraduationCap },
     { label: "Experience", value: "Intern @ Challan Save (6 Mos)", icon: Briefcase },
-    { label: "Focus", value: "FastAPI, Multimodal AI, Agentic Systems", icon: Sparkles },
   ];
 
   return (
