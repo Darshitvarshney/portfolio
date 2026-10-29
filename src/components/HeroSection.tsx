@@ -14,10 +14,17 @@ export function HeroSection() {
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
 
-  // 3D Cursor Tracking State
+  // 3D Cursor & Scroll Tracking State
   const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const current = roles[roleIndex];
@@ -54,6 +61,12 @@ export function HeroSection() {
     setIsHovered(false);
   };
 
+  // Live scroll parallax for avatar and typography in Hero
+  const scrollShiftY = Math.min(scrollY * 0.35, 180);
+  const scrollShiftX = Math.min(scrollY * 0.12, 70);
+  const scrollRotY = Math.min(scrollY * 0.03, 14);
+  const scrollRotX = Math.min(scrollY * 0.02, 10);
+
   return (
     <section
       id="home"
@@ -75,10 +88,6 @@ export function HeroSection() {
           <p className="font-['Plus_Jakarta_Sans'] text-xs sm:text-sm font-semibold tracking-wider text-slate-200 uppercase">
             Welcome To My Portfolio
           </p>
-          <span className="text-[11px] sm:text-xs text-slate-400 font-medium tracking-wide">
-            {text}
-            <span className="inline-block w-1 h-3 bg-white ml-1 animate-pulse" />
-          </span>
         </div>
 
         {/* Top-Right: Quick Nav Links */}
@@ -107,11 +116,11 @@ export function HeroSection() {
       {/* Main Center Stage: Solid White Name on Left, Avatar & Arrows Shifted Slightly Right */}
       <div className="relative z-10 flex-1 flex items-center justify-between my-auto py-8">
         
-        {/* Left Side: Solid Pure White Name (DARSHIT VARSHNEY) moving in sync with cursor */}
+        {/* Left Side: Solid Pure White Name (DARSHIT VARSHNEY) moving in sync with cursor & scroll */}
         <div
           className="absolute inset-y-0 left-0 flex flex-col justify-center items-start pl-4 sm:pl-10 lg:pl-16 pointer-events-none z-0 gap-3 sm:gap-5"
           style={{
-            transform: `perspective(1000px) translate3d(${mouseOffset.x * 18}px, ${mouseOffset.y * 14}px, 0) rotateY(${mouseOffset.x * 8}deg) rotateX(${-mouseOffset.y * 6}deg)`,
+            transform: `perspective(1000px) translate3d(${mouseOffset.x * 18 - scrollShiftX * 0.5}px, ${mouseOffset.y * 14 - scrollShiftY * 0.4}px, 0) rotateY(${mouseOffset.x * 8 - scrollRotY * 0.5}deg) rotateX(${-mouseOffset.y * 6}deg)`,
             transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
           }}
         >
@@ -129,6 +138,15 @@ export function HeroSection() {
               VARSHNEY
             </h1>
           </div>
+
+          {/* Dynamic Typed Roles below Name */}
+          <div className="flex items-center gap-2.5 sm:gap-3.5 pt-1 sm:pt-2">
+            <div className="w-6 sm:w-10 h-[2px] bg-white/50 shrink-0" />
+            <p className="font-['Plus_Jakarta_Sans'] text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold tracking-wider text-slate-300 uppercase">
+              {text}
+              <span className="inline-block w-0.5 sm:w-1 h-3.5 sm:h-5 bg-white ml-1.5 animate-pulse align-middle" />
+            </p>
+          </div>
         </div>
 
         {/* Right-Center: 3D Avatar + Scroll Down Arrow (Shifted slightly to the right so name is clean & proper) */}
@@ -139,18 +157,18 @@ export function HeroSection() {
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 bg-white/[0.08] rounded-full blur-3xl pointer-events-none"
               style={{
-                transform: `translate3d(${mouseOffset.x * 12}px, ${mouseOffset.y * 12}px, 0)`,
+                transform: `translate3d(${mouseOffset.x * 12 + scrollShiftX * 0.4}px, ${mouseOffset.y * 12 + scrollShiftY * 0.4}px, 0)`,
                 transition: isHovered ? "transform 0.15s ease-out" : "transform 0.8s ease-out",
               }}
             />
 
-            {/* 3D Character Avatar with live cursor physics & rotation */}
+            {/* 3D Character Avatar with live cursor physics, scroll movement & rotation */}
             <img
               src="/avatar.png"
               alt="Darshit Varshney 3D Avatar"
               className="relative z-10 w-[270px] sm:w-[350px] md:w-[420px] lg:w-[460px] h-auto object-contain cursor-grab active:cursor-grabbing drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
               style={{
-                transform: `perspective(1000px) translate3d(${mouseOffset.x * 26}px, ${mouseOffset.y * 18}px, 0) rotateY(${mouseOffset.x * 14}deg) rotateX(${-mouseOffset.y * 10}deg)`,
+                transform: `perspective(1000px) translate3d(${mouseOffset.x * 26 + scrollShiftX}px, ${mouseOffset.y * 18 + scrollShiftY}px, 0) rotateY(${mouseOffset.x * 14 + scrollRotY}deg) rotateX(${-mouseOffset.y * 10 - scrollRotX}deg)`,
                 transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             />
@@ -159,7 +177,7 @@ export function HeroSection() {
             <div
               className="w-44 sm:w-60 h-6 bg-black/80 rounded-full blur-md mx-auto -mt-3 sm:-mt-5 pointer-events-none"
               style={{
-                transform: `translate3d(${-mouseOffset.x * 20}px, ${-mouseOffset.y * 8}px, 0) scale(${1 - Math.abs(mouseOffset.y) * 0.15})`,
+                transform: `translate3d(${-mouseOffset.x * 20 - scrollShiftX * 0.4}px, ${-mouseOffset.y * 8 - scrollShiftY * 0.2}px, 0) scale(${Math.max(0.6, 1 - Math.abs(mouseOffset.y) * 0.15 - (scrollY * 0.0008))})`,
                 transition: isHovered ? "transform 0.12s ease-out" : "transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             />

@@ -8,6 +8,7 @@ import { SkillsSection } from "@/components/SkillsSection";
 import { EducationSection } from "@/components/EducationSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { ScrollAvatarCompanion } from "@/components/ScrollAvatarCompanion";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -25,6 +26,7 @@ function Index() {
       <EducationSection />
       <ContactSection />
       <Footer />
+      <ScrollAvatarCompanion />
     </>
   );
 }
