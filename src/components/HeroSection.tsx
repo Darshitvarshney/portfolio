@@ -149,8 +149,8 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* Right-Center: 3D Avatar + Scroll Down Arrow (Shifted slightly to the right so name is clean & proper) */}
-        <div className="relative z-10 w-full flex justify-center lg:justify-end lg:pr-24 xl:pr-36">
+        {/* Right-Center: 3D Avatar + Scroll Down Arrow (Positioned cleanly to the right of name without overlap) */}
+        <div className="relative z-10 w-full flex justify-center md:justify-end md:pr-14 lg:pr-32 xl:pr-44 2xl:pr-56">
           <div className="relative flex flex-col items-center">
             
             {/* Studio Ambient Backlight behind Avatar */}
@@ -182,8 +182,8 @@ export function HeroSection() {
               }}
             />
 
-            {/* Doodle Annotation 1: 'Just scroll down' with curly arrow (Positioned directly to the right of avatar) */}
-            <div className="absolute top-10 -right-16 sm:-right-24 md:-right-32 hidden sm:flex items-center gap-2 pointer-events-none">
+            {/* Doodle Annotation 1: 'Just scroll down' with curly arrow */}
+            <div className="absolute top-10 -right-8 sm:-right-14 md:-right-20 lg:-right-22 hidden sm:flex items-center gap-2 pointer-events-none">
               <div className="flex flex-col items-center">
                 <svg
                   width="45"
@@ -204,7 +204,7 @@ export function HeroSection() {
             </div>
 
             {/* Doodle Annotation 2: 'Follow me' with curly arrow */}
-            <div className="absolute bottom-16 -right-12 sm:-right-20 md:-right-28 hidden sm:flex items-center gap-2 pointer-events-none">
+            <div className="absolute bottom-16 -right-6 sm:-right-10 md:-right-14 lg:-right-16 hidden sm:flex items-center gap-2 pointer-events-none">
               <div className="flex flex-col items-center">
                 <svg
                   width="40"
