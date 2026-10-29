@@ -4,8 +4,19 @@
   "installCommand": "npm install",
   "routes": [
     {
-      "src": "^/(assets/.*|.*\\.(js|css|png|jpg|svg|ico))$",
+      "src": "/(.*\\.pdf)",
+      "headers": {
+        "content-type": "application/pdf",
+        "content-disposition": "attachment; filename=Darshit_Varshney_Resume.pdf"
+      },
       "dest": "/$1"
+    },
+    {
+      "src": "^/(assets/.*|.*\\.(js|css|png|jpg|jpeg|svg|ico|pdf|webp|txt|woff|woff2|json))$",
+      "dest": "/$1"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
