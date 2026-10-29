@@ -6,7 +6,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative py-12 px-6 sm:px-10 border-t border-white/[0.08] bg-[#0c0d10]">
+    <footer className="relative py-12 px-6 sm:px-10 border-t border-white/[0.08] bg-[#0c0d10]/90 backdrop-blur-[2px]">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div className="flex items-center gap-3">
           <span className="font-['Anton'] font-normal text-white text-xl tracking-wide uppercase">

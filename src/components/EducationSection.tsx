@@ -20,7 +20,7 @@ export function EducationSection() {
   const ref = useScrollReveal();
 
   return (
-    <section id="education" className="py-24 px-6 sm:px-10 bg-[#111216] relative border-t border-white/[0.06]">
+    <section id="education" className="py-24 px-6 sm:px-10 bg-[#111216]/85 backdrop-blur-[2px] relative border-t border-white/[0.06]">
       <div ref={ref} className="max-w-4xl mx-auto transition-all duration-700">
         
         {/* Section Header */}

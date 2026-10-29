@@ -12,7 +12,7 @@ export function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-24 px-6 sm:px-10 bg-[#111216] relative border-t border-white/[0.06]">
+    <section id="about" className="py-24 px-6 sm:px-10 bg-[#111216]/85 backdrop-blur-[2px] relative border-t border-white/[0.06]">
       <div ref={ref} className="max-w-6xl mx-auto transition-all duration-700">
         
         {/* Section Header */}

@@ -25,7 +25,7 @@ export function ExperienceSection() {
   const ref = useScrollReveal();
 
   return (
-    <section id="experience" className="py-24 px-6 sm:px-10 bg-[#14151b] relative border-t border-white/[0.06]">
+    <section id="experience" className="py-24 px-6 sm:px-10 bg-[#14151b]/85 backdrop-blur-[2px] relative border-t border-white/[0.06]">
       <div ref={ref} className="max-w-6xl mx-auto transition-all duration-700">
         
         {/* Section Header */}
